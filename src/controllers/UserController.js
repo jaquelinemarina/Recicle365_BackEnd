@@ -50,6 +50,22 @@ class UserController {
             return res.status(500).json({ erro: "Erro interno no servidor." })
         }
     }
+    async delete(req, res) {
+        try {
+            const id = req.params.id
+            const user = await User.findByPk(id)
+
+            if (!user) {
+                return res.status(404).json({ erro: "Usuário não encontrado." })
+            }
+
+            await user.destroy()
+            return res.status(204).json
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ erro: "Erro interno no servidor." })
+        }
+    }
 }
 User.beforeSave((user) => {
     user.password = hashSync(user.password, 10)
