@@ -33,6 +33,7 @@ const Local = connection.define('locals', {
             model: 'users',
             key: 'id',
         },
+        onDelete: 'RESTRICT'
     }
 })
 
