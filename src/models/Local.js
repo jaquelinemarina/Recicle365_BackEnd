@@ -38,6 +38,6 @@ const Local = connection.define('locals', {
 })
 
 Local.belongsTo(User, { foreignKey: 'userId' })
-User.belongsToMany(Local, { foreignKey: 'userId' })
+User.hasMany(Local, { foreignKey: 'userId' })
 
 module.exports = Local
