@@ -1,4 +1,5 @@
 const Local = require('../models/Local')
+const User = require('../models/User')
 const mapAPI = require('../services/map.service')
 
 const validTypes = ['plástico', 'metal', 'vidro', 'papel', 'baterias', 'orgânico', 'outros']
@@ -9,7 +10,6 @@ function normalText(text) {
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
 }
-
 class LocalController {
     async createLocal(req, res) {
         const { cep, localName, description, typeResidue, userId } = req.body
@@ -54,6 +54,52 @@ class LocalController {
         } catch (error) {
             console.log(error)
             return res.status(500).json({ erro: 'Erro interno no servidor.' })
+        }
+    }
+
+    async getAllLocals(req, res) {
+        try {
+            const locals = await Local.findAll({
+                attributes: ['id', 'localName', 'description', 'typeResidue']
+            })
+            res.status(200).json(locals)
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ erro: 'Erro ao buscar pontos de coleta.' })
+        }
+    }
+
+    async getLocalById(req, res) {
+        const id = req.params.id
+        const userId = req.userId
+
+        try {
+            const local = await Local.findOne({
+                where: {
+                    id: id,
+                    userId: userId
+                },
+                include: {
+                    model: User,
+                    as: 'user',
+                    attributes: ['name']
+                }
+            })
+            if (!id) {
+                return res.status(400).json({ error: 'ID inválido.' })
+            }
+
+            if (!local) {
+                return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
+            }
+
+
+            res.status(200).json(local)
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ error: 'Erro interno no servidor.' })
         }
     }
 }
