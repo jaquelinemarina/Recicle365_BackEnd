@@ -62,6 +62,7 @@ class LocalController {
             const locals = await Local.findAll({
                 attributes: ['id', 'localName', 'description', 'typeResidue']
             })
+
             res.status(200).json(locals)
 
         } catch (error) {
@@ -86,6 +87,7 @@ class LocalController {
                     attributes: ['name']
                 }
             })
+
             if (!id) {
                 return res.status(400).json({ error: 'ID inválido.' })
             }
@@ -134,6 +136,7 @@ class LocalController {
             })
 
             res.status(200).json(local)
+            
         } catch (error) {
             console.log(error)
             return res.status(500).json({ error: 'Erro interno no servidor.' })
@@ -157,8 +160,8 @@ class LocalController {
             }
 
             await local.destroy()
+            res.status(204).json()
 
-            res.status(204).send()
         } catch (error) {
             console.log(error)
             return res.status(500).json({ error: 'Erro interno no servidor.' })
