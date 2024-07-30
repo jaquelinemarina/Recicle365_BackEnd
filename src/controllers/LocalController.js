@@ -89,10 +89,6 @@ class LocalController {
                 }
             })
 
-            if (!id) {
-                return res.status(400).json({ error: 'ID inválido.' })
-            }
-
             if (!local) {
                 return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
             }
@@ -166,6 +162,35 @@ class LocalController {
         } catch (error) {
             console.log(error)
             return res.status(500).json({ error: 'Erro interno no servidor.' })
+        }
+    }
+
+    async getGoogleMapsLink(req, res) {
+        const id = req.params.id
+        const userId = req.userId
+
+        try {
+            const local = await Local.findOne({
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            })
+
+            if (!local) {
+                return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
+            }
+
+            const googleMapsLink = await mapAPI.getGoogleMapsLink(local.latitude, local.longitude)
+
+            res.status(200).json({
+                localName: local.localName,
+                googleMapsLink: googleMapsLink
+            })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error: 'Erro ao boter link do Google Maps.' })
         }
     }
 }
