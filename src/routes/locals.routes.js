@@ -7,5 +7,6 @@ localsRoutes.post("/", LocalController.createLocal)
 localsRoutes.get("/", LocalController.getAllLocals)
 localsRoutes.get("/:id", LocalController.getLocalById)
 localsRoutes.put("/:id", LocalController.updateLocal)
+localsRoutes.delete("/:id", LocalController.deleteLocal)
 
 module.exports = localsRoutes

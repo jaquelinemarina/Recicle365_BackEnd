@@ -139,6 +139,31 @@ class LocalController {
             return res.status(500).json({ error: 'Erro interno no servidor.' })
         }
     }
+
+    async deleteLocal(req, res) {
+        const id = req.params.id
+        const userId = req.userId
+
+        try {
+            const local = await Local.findOne({
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            })
+
+            if (!local) {
+                return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
+            }
+
+            await local.destroy()
+
+            res.status(204).send()
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error: 'Erro interno no servidor.' })
+        }
+    }
 }
 
 module.exports = new LocalController()
