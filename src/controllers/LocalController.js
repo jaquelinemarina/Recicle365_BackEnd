@@ -59,8 +59,13 @@ class LocalController {
     }
 
     async getAllLocals(req, res) {
+        const userId = req.userId
+
         try {
             const locals = await Local.findAll({
+                where: {
+                    userId: userId
+                },
                 attributes: ['id', 'localName', 'description', 'typeResidue']
             })
 
