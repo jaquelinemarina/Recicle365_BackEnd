@@ -94,11 +94,48 @@ class LocalController {
                 return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
             }
 
-
             res.status(200).json(local)
 
         } catch (error) {
             console.log(error);
+            return res.status(500).json({ error: 'Erro interno no servidor.' })
+        }
+    }
+
+    async updateLocal(req, res) {
+        const id = req.params.id
+        const userId = req.userId
+        const { cep, localName, description, typeResidue } = req.body
+
+        const types = typeResidue.map(type => normalText(type))
+        const validTypesNormalized = validTypes.map(type => normalText(type))
+
+        if (!Array.isArray(typeResidue) || types.some(type => !validTypesNormalized.includes(type))) {
+            return res.status(400).json({ error: 'Tipo de resíduo inválido. Opções válidas são: plástico, metal, vidro, papel, baterias, orgânico, outros.' })
+        }
+
+        try {
+            const local = await Local.findOne({
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            })
+
+            if (!local) {
+                return res.status(403).json({ error: 'Você não tem acesso a este ponto de coleta.' })
+            }
+
+            await local.update({
+                cep: cep,
+                localName: localName,
+                description: description,
+                typeResidue: typeResidue
+            })
+
+            res.status(200).json(local)
+        } catch (error) {
+            console.log(error)
             return res.status(500).json({ error: 'Erro interno no servidor.' })
         }
     }
