@@ -12,7 +12,8 @@ function normalText(text) {
 }
 class LocalController {
     async createLocal(req, res) {
-        const { cep, localName, description, typeResidue, userId } = req.body
+        const { cep, localName, description, typeResidue } = req.body
+        const userId = req.userId
 
         const types = typeResidue.map(type => normalText(type))
         const validTypesNormalized = validTypes.map(type => normalText(type))
@@ -40,7 +41,7 @@ class LocalController {
                 location: display_name,
                 latitude: lat,
                 longitude: lon,
-                userId,
+                userId: userId,
                 typeResidue
             })
 
@@ -53,7 +54,7 @@ class LocalController {
 
         } catch (error) {
             console.log(error)
-            return res.status(500).json({ erro: 'Erro interno no servidor.' })
+            return res.status(500).json({ erro: 'Erro ao conectar com a API de mapas.' })
         }
     }
 
@@ -136,7 +137,7 @@ class LocalController {
             })
 
             res.status(200).json(local)
-            
+
         } catch (error) {
             console.log(error)
             return res.status(500).json({ error: 'Erro interno no servidor.' })
