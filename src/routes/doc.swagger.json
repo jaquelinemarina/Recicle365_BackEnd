@@ -1,0 +1,439 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Recicle365",
+    "description": "Documentação da API Recicle365 utilizando Express e Sequelize.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Insira o token JWT para autenticar a requisição."
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "Endpoint para login.",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "body",
+            "description": "Informações do usuário.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "email@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345Jj$"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/usuario/": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "description": "Endpoint para cadastrar um novo usuário.",
+        "parameters": [
+          {
+            "name": "createUser",
+            "in": "body",
+            "description": "Informações do usuário.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Zé Ninguém"
+                },
+                "cpf": {
+                  "type": "string",
+                  "example": "12345678901"
+                },
+                "sex": {
+                  "type": "string",
+                  "example": "feminino"
+                },
+                "birth": {
+                  "type": "string",
+                  "example": "1990-01-01"
+                },
+                "adress": {
+                  "type": "string",
+                  "example": "Rua dos Bobos, nº 0"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "email@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345Jj$"
+                }
+              },
+              "required": [
+                "name",
+                "cpf",
+                "sex",
+                "birth",
+                "adress",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/": {
+      "post": {
+        "tags": [
+          "Locais"
+        ],
+        "description": "Endpoint para cadastrar um novo ponto de coleta.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "createLocal",
+            "in": "body",
+            "description": "Informações do local",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cep": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "localName": {
+                  "type": "string",
+                  "example": "Jardim Botânico"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Ponto de coleta de resíduos."
+                },
+                "typeResidue": {
+                  "type": "array",
+                  "example": [
+                    "orgânico",
+                    "plástico",
+                    "baterias",
+                    "papel",
+                    "vidro",
+                    "metal",
+                    "outros"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "cep",
+                "localName",
+                "description",
+                "typeResidue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Locais"
+        ],
+        "description": "Endpoint para listar todos os locais do usuário autenticado.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/{id}": {
+      "get": {
+        "tags": [
+          "Locais"
+        ],
+        "description": "Endpoint para listar um local específico do usuário autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do local"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Locais"
+        ],
+        "description": "Endpoint para atualizar um local cadastrado pelo usuário autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "updateLocal",
+            "in": "body",
+            "description": "Informações do local",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cep": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "localName": {
+                  "type": "string",
+                  "example": "Jardim Botânico"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Ponto de coleta de resíduos."
+                },
+                "typeResidue": {
+                  "type": "array",
+                  "example": [
+                    "orgânico",
+                    "plástico",
+                    "baterias",
+                    "papel",
+                    "vidro",
+                    "metal",
+                    "outros"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "cep",
+                "localName",
+                "description",
+                "typeResidue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Locais"
+        ],
+        "description": "Endpoint para deletar um local cadastrado pelo usuário autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do local"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/{id}/maps": {
+      "get": {
+        "tags": [
+          "Link Google Maps"
+        ],
+        "description": "Endpoint para obter o link do Google Maps de um local cadastrado pelo usuário autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do local"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
+}
