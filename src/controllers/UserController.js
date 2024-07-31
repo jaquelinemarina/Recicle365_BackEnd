@@ -15,6 +15,9 @@ class UserController {
             if (!data.cpf) {
                 return res.status(400).json({ erro: "O CPF é obrigatório." })
             }
+            if (data.cpf.length !== 11) {
+                return res.status(400).json({ erro: "O CPF deve ter 11 dígitos." })
+            }
             if (!data.email) {
                 return res.status(400).json({ erro: "O e-mail é obrigatório." })
             }
@@ -45,22 +48,6 @@ class UserController {
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt
             })
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json({ erro: "Erro interno no servidor." })
-        }
-    }
-    async delete(req, res) {
-        try {
-            const id = req.params.id
-            const user = await User.findByPk(id)
-
-            if (!user) {
-                return res.status(404).json({ erro: "Usuário não encontrado." })
-            }
-
-            await user.destroy()
-            return res.status(204).json
         } catch (error) {
             console.log(error)
             return res.status(500).json({ erro: "Erro interno no servidor." })
