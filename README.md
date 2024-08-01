@@ -27,7 +27,6 @@ Desenvolvi este projeto como parte da avaliação final do segundo módulo da fo
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-![Json](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
 
 <br>
 
@@ -174,13 +173,9 @@ npx sequelize-cli db:migrate:undo
 
 <br>
 
-## 📜 Documentação Sequelize
+### 📜 [Documentação Sequelize](https://sequelize.org/docs/v6/core-concepts/model-basics/)
 
-https://sequelize.org/docs/v6/core-concepts/model-basics/
-
-## 📜 Documentação Swagger
-
-https://swagger.io/docs/specification/2-0/basic-structure/
+### 📜 [Documentação Swagger](https://swagger.io/docs/specification/2-0/basic-structure/)
 
 <br>
 
